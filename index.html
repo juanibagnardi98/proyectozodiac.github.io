@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>race_of_the_zodiac_registro</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            color: #fff;
+            background-image: url("./buda.png");
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        main {
+            width: min(100%, 480px);
+            background: rgba(0, 0, 0, 0.65);
+            border-radius: 16px;
+            padding: 30px;
+            box-sizing: border-box;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+        }
+
+        form div {
+            margin-bottom: 18px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.45);
+            background: rgba(255, 255, 255, 0.12);
+            color: #000000;
+            outline: none;
+        }
+
+        select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background: #ffd700;
+            color: #111;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        small {
+            display: block;
+            margin-top: 8px;
+            color: rgba(15, 107, 92, 0.945);
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>BIENVENIDO A RACE OF THE ZODIAC</h1>
+        <p>REGISTRATE</p>
+        <form action="#" method="post">
+            <div>
+                <label for="email">Correo electrónico</label><br>
+                <input type="email" id="email" name="email" placeholder="tu@correo.com">
+            </div>
+            <div>
+                <label for="username">USUARIO</label><br>
+                <input type="text" id="username" name="username" placeholder="Elige un usuario">
+            </div>
+            <div>
+                <label for="password">Contraseña</label><br>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Contraseña"
+                    pattern="(?=.*[A-Z])(?=(.*\d){2,}).{8,}"
+                    title="8 caracteres mínimo, al menos 2 números y 1 mayúscula"
+                    required
+                >
+                <small>Debe tener mínimo 8 caracteres, 2 números y al menos 1 mayúscula.</small>
+            </div>
+            <div>
+                <label for="gender">Género</label><br>
+                <select id="gender" name="gender" required>
+                    <option value="">Elige tu genero</option>
+                    <option value="hombre">Hombre</option>
+                    <option value="mujer">Mujer</option>
+                </select>
+            </div>
+            <div>
+                <label>Fecha de nacimiento</label><br>
+                <select id="birth-day" name="birth-day" required>
+                    <option value="">Día</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
+                    <option value="21">21</option>
+                    <option value="22">22</option>
+                    <option value="23">23</option>
+                    <option value="24">24</option>
+                    <option value="25">25</option>
+                    <option value="26">26</option>
+                    <option value="27">27</option>
+                    <option value="28">28</option>
+                    <option value="29">29</option>
+                    <option value="30">30</option>
+                    <option value="31">31</option>
+                </select>
+                <select id="birth-month" name="birth-month" required>
+                    <option value="">Mes</option>
+                    <option value="1">Enero</option>
+                    <option value="2">Febrero</option>
+                    <option value="3">Marzo</option>
+                    <option value="4">Abril</option>
+                    <option value="5">Mayo</option>
+                    <option value="6">Junio</option>
+                    <option value="7">Julio</option>
+                    <option value="8">Agosto</option>
+                    <option value="9">Septiembre</option>
+                    <option value="10">Octubre</option>
+                    <option value="11">Noviembre</option>
+                    <option value="12">Diciembre</option>
+                </select>
+                <select id="birth-year" name="birth-year" required>
+                    <option value="">Año</option>
+                    <option value="1970">1970</option>
+                    <option value="1971">1971</option>
+                    <option value="1972">1972</option>
+                    <option value="1973">1973</option>
+                    <option value="1974">1974</option>
+                    <option value="1975">1975</option>
+                    <option value="1976">1976</option>
+                    <option value="1977">1977</option>
+                    <option value="1978">1978</option>
+                    <option value="1979">1979</option>
+                    <option value="1980">1980</option>
+                    <option value="1981">1981</option>
+                    <option value="1982">1982</option>
+                    <option value="1983">1983</option>
+                    <option value="1984">1984</option>
+                    <option value="1985">1985</option>
+                    <option value="1986">1986</option>
+                    <option value="1987">1987</option>
+                    <option value="1988">1988</option>
+                    <option value="1989">1989</option>
+                    <option value="1990">1990</option>
+                    <option value="1991">1991</option>
+                    <option value="1992">1992</option>
+                    <option value="1993">1993</option>
+                    <option value="1994">1994</option>
+                    <option value="1995">1995</option>
+                    <option value="1996">1996</option>
+                    <option value="1997">1997</option>
+                    <option value="1998">1998</option>
+                    <option value="1999">1999</option>
+                    <option value="2000">2000</option>
+                    <option value="2001">2001</option>
+                    <option value="2002">2002</option>
+                    <option value="2003">2003</option>
+                    <option value="2004">2004</option>
+                    <option value="2005">2005</option>
+                    <option value="2006">2006</option>
+                    <option value="2007">2007</option>
+                    <option value="2008">2008</option>
+                    <option value="2009">2009</option>
+                    <option value="2010">2010</option>
+                    <option value="2011">2011</option>
+                    <option value="2012">2012</option>
+                    <option value="2013">2013</option>
+                    <option value="2014">2014</option>
+                    <option value="2015">2015</option>
+                    <option value="2016">2016</option>
+                    <option value="2017">2017</option>
+                    <option value="2018">2018</option>
+                    <option value="2019">2019</option>
+                    <option value="2020">2020</option>
+                    <option value="2021">2021</option>
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                    <option value="2026">2026</option>
+                    <option value="2027">2027</option>
+                    <option value="2028">2028</option>
+                    <option value="2029">2029</option>
+                </select>
+                <p id="animal-assignment" style="margin-top: 10px; font-weight: 700; color: #ffd700;">Selecciona tu año para ver tu animal.</p>
+            </div>
+            <div>
+                <label for="zodiac">Signo Zodiacal</label><br>
+                <select id="zodiac" name="zodiac" required>
+                    <option value="">Elige tu signo del zodiaco</option>
+                    <option value="aries">Aries</option>
+                    <option value="tauro">Tauro</option>
+                    <option value="geminis">Géminis</option>
+                    <option value="cancer">Cáncer</option>
+                    <option value="leo">Leo</option>
+                    <option value="virgo">Virgo</option>
+                    <option value="libra">Libra</option>
+                    <option value="escorpio">Escorpio</option>
+                    <option value="sagitario">Sagitario</option>
+                    <option value="capricornio">Capricornio</option>
+                    <option value="acuario">Acuario</option>
+                    <option value="piscis">Piscis</option>
+                </select>
+            </div>
+            <div>
+                <div id="role-container" style="margin-top: 20px; text-align: center; display: none;">
+                    <p style="margin: 0 0 10px 0; font-weight: 700; color: #ffd700;">Tu Rol:</p>
+                    <p id="role-assignment" style="margin: 0 0 15px 0; font-size: 18px; font-weight: 700; color: #fff;"></p>
+                    <img id="role-image" src="" alt="Rol" style="max-width: 150px; border-radius: 10px;">
+                    <p id="element-display" style="margin: 15px 0 0 0; font-size: 18px; font-weight: 700; color: #ffd700;"></p>
+                    <img id="element-image" src="" alt="Elemento" style="max-width: 120px; margin: 10px auto 0; border-radius: 10px; display: none;">
+                </div>
+            </div>
+            <div>
+                <button type="submit">Registrarse</button>
+            </div>
+        </form>
+    </main>
+    <script>
+        var animalMap = {
+            '1970': 'perro',
+            '1982': 'perro',
+            '1994': 'perro',
+            '2006': 'perro',
+            '2018': 'perro',
+            '1971': 'cerdo',
+            '1983': 'cerdo',
+            '1995': 'cerdo',
+            '2007': 'cerdo',
+            '2019': 'cerdo',
+            '1972': 'rata',
+            '1984': 'rata',
+            '1996': 'rata',
+            '2008': 'rata',
+            '2020': 'rata',
+            '1973': 'buey',
+            '1985': 'buey',
+            '1997': 'buey',
+            '2009': 'buey',
+            '2021': 'buey',
+            '1974': 'tigre',
+            '1986': 'tigre',
+            '1998': 'tigre',
+            '2010': 'tigre',
+            '2022': 'tigre',
+            '1975': 'conejo',
+            '1987': 'conejo',
+            '1999': 'conejo',
+            '2011': 'conejo',
+            '2023': 'conejo',
+            '1976': 'dragon',
+            '1988': 'dragon',
+            '2000': 'dragon',
+            '2012': 'dragon',
+            '2024': 'dragon',
+            '1977': 'serpiente',
+            '1989': 'serpiente',
+            '2001': 'serpiente',
+            '2013': 'serpiente',
+            '2025': 'serpiente',
+            '1978': 'caballo',
+            '1990': 'caballo',
+            '2002': 'caballo',
+            '2014': 'caballo',
+            '2026': 'caballo',
+            '1979': 'cabra',
+            '1991': 'cabra',
+            '2003': 'cabra',
+            '2015': 'cabra',
+            '2027': 'cabra',
+            '1980': 'mono',
+            '1992': 'mono',
+            '2004': 'mono',
+            '2016': 'mono',
+            '2028': 'mono',
+            '1981': 'gallo',
+            '1993': 'gallo',
+            '2005': 'gallo',
+            '2017': 'gallo',
+            '2029': 'gallo'
+        };
+
+        var roleMap = {
+            'hombre_tauro': { role: 'mago', image: './mago.png' },
+            'hombre_virgo': { role: 'mago', image: './mago.png' },
+            'hombre_capricornio': { role: 'mago', image: './mago.png' },
+            'mujer_tauro': { role: 'maga', image: './maga.png' },
+            'mujer_virgo': { role: 'maga', image: './maga.png' },
+            'mujer_capricornio': { role: 'maga', image: './maga.png' },
+            'hombre_aries': { role: 'guerrero', image: './guerrero.jpg' },
+            'hombre_leo': { role: 'guerrero', image: './guerrero.jpg' },
+            'hombre_sagitario': { role: 'guerrero', image: './guerrero.jpg' },
+            'mujer_aries': { role: 'guerrera', image: './guerrera.jpg' },
+            'mujer_leo': { role: 'guerrera', image: './guerrera.jpg' },
+            'mujer_sagitario': { role: 'guerrera', image: './guerrera.jpg' },
+            'hombre_geminis': { role: 'nigromante', image: './nigromante.png' },
+            'hombre_libra': { role: 'nigromante', image: './nigromante.png' },
+            'hombre_acuario': { role: 'nigromante', image: './nigromante.png' },
+            'mujer_geminis': { role: 'nigromantemujer', image: './nigromantemujer.png' },
+            'mujer_libra': { role: 'nigromantemujer', image: './nigromantemujer.png' },
+            'mujer_acuario': { role: 'nigromantemujer', image: './nigromantemujer.png' },
+            'hombre_cancer': { role: 'asesino', image: './asesino.png' },
+            'hombre_escorpio': { role: 'asesino', image: './asesino.png' },
+            'hombre_piscis': { role: 'asesino', image: './asesino.png' },
+            'mujer_cancer': { role: 'asesina', image: './asesina.png' },
+            'mujer_escorpio': { role: 'asesina', image: './asesina.png' },
+            'mujer_piscis': { role: 'asesina', image: './asesina.png' }
+        };
+
+        var yearSelect = document.getElementById('birth-year');
+        var animalAssignment = document.getElementById('animal-assignment');
+        var genderSelect = document.getElementById('gender');
+        var zodiacSelect = document.getElementById('zodiac');
+        var roleContainer = document.getElementById('role-container');
+        var roleAssignment = document.getElementById('role-assignment');
+        var roleImage = document.getElementById('role-image');
+        var elementDisplay = document.getElementById('element-display');
+        var elementImage = document.getElementById('element-image');
+        var emailInput = document.getElementById('email');
+        var usernameInput = document.getElementById('username');
+        var passwordInput = document.getElementById('password');
+        var genderInput = genderSelect;
+        var form = document.querySelector('form');
+
+        function updateAnimal() {
+            var year = yearSelect.value;
+            if (animalMap[year]) {
+                animalAssignment.textContent = 'Animal asignado: ' + animalMap[year];
+            } else if (year) {
+                animalAssignment.textContent = 'Animal asignado: Ninguno predeterminado';
+            } else {
+                animalAssignment.textContent = 'Selecciona tu año para ver tu animal.';
+            }
+            updateRole();
+        }
+
+        function updateRole() {
+            var gender = genderSelect.value;
+            var zodiac = zodiacSelect.value;
+            var key = gender + '_' + zodiac;
+
+            if (gender && zodiac && roleMap[key]) {
+                roleAssignment.textContent = roleMap[key].role.toUpperCase();
+                roleImage.src = roleMap[key].image;
+                
+                // Mostrar elemento según el signo zodiacal
+                if (zodiac === 'aries' || zodiac === 'leo' || zodiac === 'sagitario') {
+                    elementDisplay.textContent = 'Elemento: Fuego';
+                    elementImage.src = './fuego.png';
+                    elementImage.style.display = 'block';
+                } else if (zodiac === 'geminis' || zodiac === 'libra' || zodiac === 'acuario') {
+                    elementDisplay.textContent = 'Elemento: Aire';
+                    elementImage.src = './aire.png';
+                    elementImage.style.display = 'block';
+                } else if (zodiac === 'tauro' || zodiac === 'virgo' || zodiac === 'capricornio') {
+                    elementDisplay.textContent = 'Elemento: Tierra';
+                    elementImage.src = './tierra.png';
+                    elementImage.style.display = 'block';
+                } else if (zodiac === 'cancer' || zodiac === 'escorpio' || zodiac === 'piscis') {
+                    elementDisplay.textContent = 'Elemento: Agua';
+                    elementImage.src = './agua.png';
+                    elementImage.style.display = 'block';
+                } else {
+                    elementDisplay.textContent = '';
+                    elementImage.src = '';
+                    elementImage.style.display = 'none';
+                }
+                
+                roleContainer.style.display = 'block';
+            } else {
+                roleContainer.style.display = 'none';
+            }
+        }
+
+        yearSelect.addEventListener('change', updateAnimal);
+        genderSelect.addEventListener('change', updateRole);
+        zodiacSelect.addEventListener('change', updateRole);
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            var email = emailInput.value.trim();
+            if (!email) {
+                alert('Ingresa un correo electrónico válido para recibir la información.');
+                return;
+            }
+
+            var username = usernameInput.value.trim();
+            var password = passwordInput.value.trim();
+            var gender = genderSelect.value;
+            var zodiac = zodiacSelect.value;
+            var year = yearSelect.value;
+            var animal = animalMap[year] || 'N/A';
+            var role = roleAssignment.textContent || 'N/A';
+            var element = elementDisplay.textContent || 'N/A';
+
+            var subject = encodeURIComponent('Registro Race of the Zodiac');
+            var body = encodeURIComponent(
+                'Correo: ' + email + '\n' +
+                'Usuario: ' + username + '\n' +
+                'Contraseña: ' + password + '\n' +
+                'Género: ' + gender + '\n' +
+                'Año de nacimiento: ' + year + '\n' +
+                'Animal asignado: ' + animal + '\n' +
+                'Signo zodiacal: ' + zodiac + '\n' +
+                'Rol: ' + role + '\n' +
+                'Elemento: ' + element
+            );
+
+            window.location.href = 'mailto:' + email + '?subject=' + subject + '&body=' + body;
+        });
+    </script>
+</body>
+</html>
