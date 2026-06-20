@@ -122,63 +122,7 @@
     </style>
 </head>
 <body>
-    <main class="hero">
-        <section style="max-width:960px;margin:40px auto;padding:20px;background:rgba(255,255,255,0.04);border-radius:12px;">
-            <h2 style="color:#ffeab2;text-align:center;margin-top:0">Perfil de usuario</h2>
-            <div id="no-user" style="text-align:center;color:#f8f0d6;display:none;">
-                <p>No hay usuario activo. <a href="index.html" style="color:#d4a855;">Regístrate</a> para crear un perfil.</p>
-            </div>
-            <form id="profile-form" style="display:none;max-width:520px;margin:0 auto;color:#f8f0d6;">
-                <div>
-                    <label for="p-email">Correo electrónico</label>
-                    <input id="p-email" type="email" readonly />
-                </div>
-                <div>
-                    <label for="p-username">Usuario</label>
-                    <input id="p-username" type="text" />
-                </div>
-                <div>
-                    <label for="p-gender">Género</label>
-                    <select id="p-gender">
-                        <option value="">Elige tu genero</option>
-                        <option value="hombre">Hombre</option>
-                        <option value="mujer">Mujer</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="p-birth-year">Año de nacimiento</label>
-                    <select id="p-birth-year"></select>
-                </div>
-                <div>
-                    <label for="p-zodiac">Signo Zodiacal</label>
-                    <select id="p-zodiac">
-                        <option value="">Elige tu signo</option>
-                        <option value="aries">Aries</option>
-                        <option value="tauro">Tauro</option>
-                        <option value="geminis">Géminis</option>
-                        <option value="cancer">Cáncer</option>
-                        <option value="leo">Leo</option>
-                        <option value="virgo">Virgo</option>
-                        <option value="libra">Libra</option>
-                        <option value="escorpio">Escorpio</option>
-                        <option value="sagitario">Sagitario</option>
-                        <option value="capricornio">Capricornio</option>
-                        <option value="acuario">Acuario</option>
-                        <option value="piscis">Piscis</option>
-                    </select>
-                </div>
-                <div id="profile-roots" style="text-align:center;margin-top:12px;display:none;">
-                    <p id="p-animal" style="font-weight:700;color:#ffd700;margin:6px 0"></p>
-                    <p id="p-role" style="font-weight:700;color:#ffeab2;margin:6px 0"></p>
-                    <img id="p-role-image" src="" alt="Rol" style="max-width:140px;border-radius:8px;display:block;margin:6px auto;" />
-                    <p id="p-element" style="font-weight:700;color:#ffd700;margin:6px 0"></p>
-                </div>
-                <div style="margin-top:14px;">
-                    <button id="save-profile" type="button">Guardar cambios</button>
-                </div>
-            </form>
-        </section>
-    </main>
+    <main class="hero"></main>
 
     <div class="header-buttons">
         <button onclick="alert('Inicio de sesión - En desarrollo')">Inicio de sesión</button>
@@ -234,6 +178,70 @@
             </ul>
         </div>
     </section>
+
+    <div id="profile-panel" style="position:fixed;left:0;right:0;bottom:0;background:rgba(1,48,59,0.98);border-top:2px solid #d4a855;color:#f8f0d6;display:none;padding:20px;max-height:80vh;overflow-y:auto;box-shadow:0 -12px 40px rgba(0,0,0,0.5);z-index:1000;">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
+            <h2 style="margin:0;color:#ffeab2;">Perfil de usuario</h2>
+            <button id="close-profile" style="background:#d4a855;color:#01303b;border:none;padding:10px 18px;border-radius:10px;cursor:pointer;font-weight:700;">Cerrar</button>
+        </div>
+        <div id="profile-content" style="margin-top:18px;">
+            <div id="no-user" style="text-align:center;color:#f8f0d6;display:none;">
+                <p>No hay usuario activo. <a href="index.html" style="color:#d4a855;">Regístrate</a> para crear un perfil.</p>
+            </div>
+            <form id="profile-form" style="display:none;max-width:520px;margin:0 auto;color:#f8f0d6;">
+                <div style="margin-bottom:14px;">
+                    <label for="p-email">Correo electrónico</label>
+                    <input id="p-email" type="email" readonly style="width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:#fff;" />
+                </div>
+                <div style="margin-bottom:14px;">
+                    <label for="p-username">Usuario</label>
+                    <input id="p-username" type="text" style="width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:#fff;" />
+                </div>
+                <div style="margin-bottom:14px;">
+                    <label for="p-gender">Género</label>
+                    <select id="p-gender" style="width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:#000;">
+                        <option value="">Elige tu genero</option>
+                        <option value="hombre">Hombre</option>
+                        <option value="mujer">Mujer</option>
+                    </select>
+                </div>
+                <div style="margin-bottom:14px;">
+                    <label for="p-birth-year">Año de nacimiento</label>
+                    <select id="p-birth-year" style="width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:#000;"></select>
+                </div>
+                <div style="margin-bottom:14px;">
+                    <label for="p-zodiac">Signo Zodiacal</label>
+                    <select id="p-zodiac" style="width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:#000;">
+                        <option value="">Elige tu signo</option>
+                        <option value="aries">Aries</option>
+                        <option value="tauro">Tauro</option>
+                        <option value="geminis">Géminis</option>
+                        <option value="cancer">Cáncer</option>
+                        <option value="leo">Leo</option>
+                        <option value="virgo">Virgo</option>
+                        <option value="libra">Libra</option>
+                        <option value="escorpio">Escorpio</option>
+                        <option value="sagitario">Sagitario</option>
+                        <option value="capricornio">Capricornio</option>
+                        <option value="acuario">Acuario</option>
+                        <option value="piscis">Piscis</option>
+                    </select>
+                </div>
+                <div id="profile-roots" style="text-align:center;margin-top:12px;display:none;">
+                    <p id="p-animal" style="font-weight:700;color:#ffd700;margin:6px 0"></p>
+                    <p id="p-role" style="font-weight:700;color:#ffeab2;margin:6px 0"></p>
+                    <img id="p-role-image" src="" alt="Rol" style="max-width:140px;border-radius:8px;display:block;margin:6px auto;" />
+                    <p id="p-element" style="font-weight:700;color:#ffd700;margin:6px 0"></p>
+                </div>
+                <div style="margin-top:14px;text-align:center;">
+                    <button id="save-profile" type="button" style="background:#d4a855;color:#01303b;border:none;padding:14px 24px;border-radius:12px;cursor:pointer;font-weight:700;">Guardar cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <button id="open-profile" style="position:fixed;left:50%;transform:translateX(-50%);bottom:20px;background:#d4a855;color:#01303b;border:none;padding:16px 32px;border-radius:999px;cursor:pointer;font-weight:700;box-shadow:0 12px 30px rgba(0,0,0,0.25);z-index:900;">Perfil</button>
+
     <script>
         // URL base de la API (configura para habilitar sincronización)
         var API_BASE = 'http://localhost:3000'; // ejemplo: servidor local para pruebas
@@ -312,6 +320,22 @@
         var pElement = document.getElementById('p-element');
         var profileRoots = document.getElementById('profile-roots');
         var saveBtn = document.getElementById('save-profile');
+        var openProfileBtn = document.getElementById('open-profile');
+        var closeProfileBtn = document.getElementById('close-profile');
+        var profilePanel = document.getElementById('profile-panel');
+
+        function openProfile() {
+            profilePanel.style.display = 'block';
+            openProfileBtn.style.display = 'none';
+        }
+
+        function closeProfile() {
+            profilePanel.style.display = 'none';
+            openProfileBtn.style.display = 'block';
+        }
+
+        openProfileBtn.addEventListener('click', openProfile);
+        closeProfileBtn.addEventListener('click', closeProfile);
 
         // Rellenar años
         (function fillYears() {
