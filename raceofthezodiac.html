@@ -91,12 +91,45 @@
             border-color: rgba(255, 255, 255, 0.25);
             color: #ffeab2;
         }
+
+        .header-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            padding: 40px 20px;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        .header-buttons button {
+            padding: 16px 40px;
+            font-size: 16px;
+            font-weight: 700;
+            border: 2px solid #ffeab2;
+            border-radius: 10px;
+            background: transparent;
+            color: #ffeab2;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            letter-spacing: 0.05em;
+        }
+
+        .header-buttons button:hover {
+            background: #ffeab2;
+            color: #01303b;
+        }
     </style>
 </head>
 <body>
     <main class="hero">
     
     </main>
+
+    <div class="header-buttons">
+        <button onclick="window.location.href='index.html'">Inscripción</button>
+        <button onclick="alert('Inicio de sesión - En desarrollo')">Inicio de sesión</button>
+    </div>
 
     <section class="grid">
         <div class="card">
