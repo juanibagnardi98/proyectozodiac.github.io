@@ -66,6 +66,31 @@
             padding: 8px 10px;
             text-align: center;
         }
+
+        .button-group {
+            display: grid;
+            gap: 6px;
+            width: 100%;
+        }
+
+        .button-group button {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            color: #f8f0d6;
+            font-size: 14px;
+            padding: 8px 10px;
+            text-align: center;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .button-group button:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.25);
+            color: #ffeab2;
+        }
     </style>
 </head>
 <body>
@@ -76,10 +101,10 @@
     <section class="grid">
         <div class="card">
             <span>INICIO</span>
-            <ul class="subroots">
-                <li>INICIAR SESION</li>
-                <li>REGISTRARSE</li>
-            </ul>
+            <div class="button-group">
+                <button onclick="window.location.href='index.html'">Inscripción</button>
+                <button onclick="alert('Inicio de sesión - En desarrollo')">Inicio de sesión</button>
+            </div>
         </div>
         <div class="card">
             <span>PERFIL</span>

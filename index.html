@@ -99,6 +99,10 @@
                     title="8 caracteres mínimo, al menos 2 números y 1 mayúscula"
                     required
                 >
+                <div style="margin-top: 10px; display: flex; align-items: center; gap: 8px;">
+                    <input type="checkbox" id="show-password" />
+                    <label for="show-password" style="font-size: 14px; font-weight: 500; color: #fff;">Mostrar contraseña</label>
+                </div>
                 <small>Debe tener mínimo 8 caracteres, 2 números y al menos 1 mayúscula.</small>
             </div>
             <div>
@@ -408,6 +412,7 @@
         var emailInput = document.getElementById('email');
         var usernameInput = document.getElementById('username');
         var passwordInput = document.getElementById('password');
+        var showPasswordCheckbox = document.getElementById('show-password');
         var genderInput = genderSelect;
         var form = document.querySelector('form');
 
@@ -464,6 +469,9 @@
         yearSelect.addEventListener('change', updateAnimal);
         genderSelect.addEventListener('change', updateRole);
         zodiacSelect.addEventListener('change', updateRole);
+        showPasswordCheckbox.addEventListener('change', function() {
+            passwordInput.type = this.checked ? 'text' : 'password';
+        });
 
         form.addEventListener('submit', function(event) {
             event.preventDefault();
