@@ -286,6 +286,96 @@
         </form>
     </main>
     <script>
+        var API_BASE = 'http://localhost:3000'; // Setea la URL base de la API para pruebas locales
+
+        // Cola de sincronización para manejar reintentos offline
+        function enqueueRequest(item) {
+            try {
+                var q = JSON.parse(localStorage.getItem('rotz_queue') || '[]');
+                q.push(item);
+                localStorage.setItem('rotz_queue', JSON.stringify(q));
+            } catch (e) { console.error('enqueue error', e); }
+        }
+
+        function dequeueOne() {
+            try {
+                var q = JSON.parse(localStorage.getItem('rotz_queue') || '[]');
+                if (!q.length) return null;
+                var item = q.shift();
+                localStorage.setItem('rotz_queue', JSON.stringify(q));
+                return item;
+            } catch (e) { console.error('dequeue error', e); return null; }
+        }
+
+        function syncToServer(user, method, opts) {
+            opts = opts || {};
+            if (!API_BASE) return Promise.resolve({ skipped: true });
+            var url = API_BASE + '/users' + (method === 'PUT' ? '/' + encodeURIComponent(user.email) : '');
+
+            // Attach token if available
+            var token = localStorage.getItem('rotz_token::' + user.email) || '';
+            var headers = { 'Content-Type': 'application/json' };
+            if (token) headers['Authorization'] = 'Bearer ' + token;
+
+            // If offline, enqueue
+            if (!navigator.onLine) {
+                enqueueRequest({ url: url, method: method || 'POST', body: user, headers: headers });
+                return Promise.resolve({ queued: true });
+            }
+
+            return fetch(url, {
+                method: method || 'POST',
+                headers: headers,
+                body: JSON.stringify(user)
+            }).then(function(res) {
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                return res.json().catch(function() { return null; });
+            }).catch(function(err) {
+                // enqueue on failure
+                enqueueRequest({ url: url, method: method || 'POST', body: user, headers: headers });
+                throw err;
+            });
+        }
+
+        // Worker para reintentar la cola cuando haya conexión
+        function processQueue() {
+            if (!navigator.onLine || !API_BASE) return;
+            var item = dequeueOne();
+            if (!item) return;
+            fetch(item.url, {
+                method: item.method,
+                headers: item.headers || { 'Content-Type': 'application/json' },
+                body: JSON.stringify(item.body)
+            }).then(function(res) {
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                // continuar procesando
+                setTimeout(processQueue, 200);
+            }).catch(function(err) {
+                // volver a encolar y detener por ahora
+                enqueueRequest(item);
+                console.warn('Reintentar más tarde:', err);
+            });
+        }
+
+        window.addEventListener('online', processQueue);
+        setInterval(processQueue, 5000);
+
+        // Login helper to get token
+        function loginAndStoreToken(email, password) {
+            if (!API_BASE) return Promise.resolve({ skipped: true });
+            return fetch(API_BASE + '/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: email, password: password })
+            }).then(function(res) {
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                return res.json();
+            }).then(function(body) {
+                if (body && body.token) localStorage.setItem('rotz_token::' + email, body.token);
+                return body;
+            });
+        }
+
         var animalMap = {
             '1946': 'perro',
             '1947': 'cerdo',
@@ -504,8 +594,40 @@
                 'Elemento: ' + element
             );
 
+            // Guardar perfil en localStorage
+            try {
+                var users = JSON.parse(localStorage.getItem('rotz_users') || '{}');
+                users[email] = {
+                    email: email,
+                    username: username,
+                    password: password,
+                    gender: gender,
+                    zodiac: zodiac,
+                    year: year,
+                    animal: animal,
+                    role: role,
+                    element: element
+                };
+                localStorage.setItem('rotz_users', JSON.stringify(users));
+                // Marcar usuario actual para que la página de perfil lo cargue
+                localStorage.setItem('rotz_current', email);
+
+                // Intentar sincronizar con servidor (si API_BASE está configurada)
+                syncToServer(users[email], 'POST')
+                    .then(function(res) {
+                        if (res && !res.skipped) {
+                            console.log('Sincronizado registro en servidor', res);
+                            // si server devuelve token lo guardamos
+                            if (res.token) localStorage.setItem('rotz_token::' + email, res.token);
+                        }
+                    })
+                    .catch(function(err) { console.warn('No se pudo sincronizar registro', err); });
+            } catch (e) {
+                console.error('No se pudo guardar en localStorage', e);
+            }
+
+            // Mantener comportamiento original: abrir cliente de correo y luego ir al perfil
             window.location.href = 'mailto:' + email + '?subject=' + subject + '&body=' + body;
-            
             setTimeout(function() {
                 window.location.href = 'raceofthezodiac.html';
             }, 1500);
