@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Race of the Zodiac</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-image: url("./zodiac.jpg");
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-attachment: scroll;
+            min-height: 100vh;
+            background-color: #01303b;
+            color: #1a4a91;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 16px;
+            padding: 20px;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: rgba(0, 0, 0, 0.55);
+            border-radius: 14px;
+            padding: 18px;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .card span {
+            color: #ffeab2;
+            font-size: 18px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 10px;
+        }
+
+        .subroots {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            display: grid;
+            gap: 6px;
+        }
+
+        .subroots li {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            color: #f8f0d6;
+            font-size: 14px;
+            padding: 8px 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <main class="hero">
+    
+    </main>
+
+    <section class="grid">
+        <div class="card">
+            <span>INICIO</span>
+            <ul class="subroots">
+                <li>INICIAR SESION</li>
+                <li>REGISTRARSE</li>
+            </ul>
+        </div>
+        <div class="card">
+            <span>PERFIL</span>
+            <ul class="subroots">
+                <li>ZODIACO</li>
+                <li>ZODIACO CHINO</li>
+                <li>ELEMENTO</li>
+                <li>PERSONAJE</li>
+            </ul>
+        </div>
+        <div class="card">
+            <span>TIENDA</span>
+            <ul class="subroots">
+                <li>SKINS</li>
+                <li>CRIATURAS</li>
+                <li>PODERES</li>
+                <li>CAMBIOS DE ELEMENTOS</li>
+            </ul>
+        </div>
+        <div class="card">
+            <span>DESCARGAS</span>
+            <ul class="subroots">
+                <li>WINDOWS</li>
+                <li>MACOS</li>
+                <li>ANDROID</li>
+            </ul>
+        </div>
+        <div class="card">
+            <span>MOCHILA</span>
+            <ul class="subroots">
+                <li>OBJETOS</li>
+                <li>EQUIPO</li>
+            </ul>
+        </div>
+        <div class="card">
+            <span>OPCIONES</span>
+            <ul class="subroots">
+                <li>IDIOMAS</li>
+                <li>CERRAR SESION</li>
+            </ul>
+        </div>
+    </section>
+</body>
+</html>
