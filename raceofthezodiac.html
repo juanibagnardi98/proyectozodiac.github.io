@@ -105,10 +105,10 @@
             padding: 16px 40px;
             font-size: 16px;
             font-weight: 700;
-            border: 2px solid #ffeab2;
+            border: 2px solid #d4a855;
             border-radius: 10px;
-            background: transparent;
-            color: #ffeab2;
+            background: rgba(212, 168, 85, 0.15);
+            color: #d4a855;
             cursor: pointer;
             text-transform: uppercase;
             transition: all 0.3s ease;
@@ -116,19 +116,73 @@
         }
 
         .header-buttons button:hover {
-            background: #ffeab2;
+            background: #d4a855;
             color: #01303b;
         }
     </style>
 </head>
 <body>
     <main class="hero">
-    
+        <section style="max-width:960px;margin:40px auto;padding:20px;background:rgba(255,255,255,0.04);border-radius:12px;">
+            <h2 style="color:#ffeab2;text-align:center;margin-top:0">Perfil de usuario</h2>
+            <div id="no-user" style="text-align:center;color:#f8f0d6;display:none;">
+                <p>No hay usuario activo. <a href="index.html" style="color:#d4a855;">Regístrate</a> para crear un perfil.</p>
+            </div>
+            <form id="profile-form" style="display:none;max-width:520px;margin:0 auto;color:#f8f0d6;">
+                <div>
+                    <label for="p-email">Correo electrónico</label>
+                    <input id="p-email" type="email" readonly />
+                </div>
+                <div>
+                    <label for="p-username">Usuario</label>
+                    <input id="p-username" type="text" />
+                </div>
+                <div>
+                    <label for="p-gender">Género</label>
+                    <select id="p-gender">
+                        <option value="">Elige tu genero</option>
+                        <option value="hombre">Hombre</option>
+                        <option value="mujer">Mujer</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="p-birth-year">Año de nacimiento</label>
+                    <select id="p-birth-year"></select>
+                </div>
+                <div>
+                    <label for="p-zodiac">Signo Zodiacal</label>
+                    <select id="p-zodiac">
+                        <option value="">Elige tu signo</option>
+                        <option value="aries">Aries</option>
+                        <option value="tauro">Tauro</option>
+                        <option value="geminis">Géminis</option>
+                        <option value="cancer">Cáncer</option>
+                        <option value="leo">Leo</option>
+                        <option value="virgo">Virgo</option>
+                        <option value="libra">Libra</option>
+                        <option value="escorpio">Escorpio</option>
+                        <option value="sagitario">Sagitario</option>
+                        <option value="capricornio">Capricornio</option>
+                        <option value="acuario">Acuario</option>
+                        <option value="piscis">Piscis</option>
+                    </select>
+                </div>
+                <div id="profile-roots" style="text-align:center;margin-top:12px;display:none;">
+                    <p id="p-animal" style="font-weight:700;color:#ffd700;margin:6px 0"></p>
+                    <p id="p-role" style="font-weight:700;color:#ffeab2;margin:6px 0"></p>
+                    <img id="p-role-image" src="" alt="Rol" style="max-width:140px;border-radius:8px;display:block;margin:6px auto;" />
+                    <p id="p-element" style="font-weight:700;color:#ffd700;margin:6px 0"></p>
+                </div>
+                <div style="margin-top:14px;">
+                    <button id="save-profile" type="button">Guardar cambios</button>
+                </div>
+            </form>
+        </section>
     </main>
 
     <div class="header-buttons">
-        <button onclick="window.location.href='index.html'">Inscripción</button>
         <button onclick="alert('Inicio de sesión - En desarrollo')">Inicio de sesión</button>
+        <button onclick="window.location.href='index.html'">Inscripción</button>
     </div>
 
     <section class="grid">
@@ -180,5 +234,212 @@
             </ul>
         </div>
     </section>
+    <script>
+        // URL base de la API (configura para habilitar sincronización)
+        var API_BASE = 'http://localhost:3000'; // ejemplo: servidor local para pruebas
+
+        function syncToServer(user, method) {
+            if (!API_BASE) return Promise.resolve({ skipped: true });
+            var url = API_BASE + '/users' + (method === 'PUT' ? '/' + encodeURIComponent(user.email) : '');
+            return fetch(url, {
+                method: method || 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(user)
+            }).then(function(res) {
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                return res.json().catch(function() { return null; });
+            });
+        }
+
+        // Mapas de animales y roles (compatibles con el registro)
+        var animalMap = {
+            '1946': 'perro','1947': 'cerdo','1948': 'rata','1949': 'buey','1950': 'tigre','1951': 'conejo','1952': 'dragon','1953': 'serpiente','1954': 'caballo','1955': 'cabra','1956': 'mono','1957': 'gallo','1958': 'perro','1959': 'cerdo','1960': 'rata','1961': 'buey','1962': 'tigre','1963': 'conejo','1964': 'dragon','1965': 'serpiente','1966': 'caballo','1967': 'cabra','1968': 'mono','1969': 'gallo','1970': 'perro','1982': 'perro','1994': 'perro','2006': 'perro','2018': 'perro','1971': 'cerdo','1983': 'cerdo','1995': 'cerdo','2007': 'cerdo','2019': 'cerdo','1972': 'rata','1984': 'rata','1996': 'rata','2008': 'rata','2020': 'rata','1973': 'buey','1985': 'buey','1997': 'buey','2009': 'buey','2021': 'buey','1974': 'tigre','1986': 'tigre','1998': 'tigre','2010': 'tigre','2022': 'tigre','1975': 'conejo','1987': 'conejo','1999': 'conejo','2011': 'conejo','2023': 'conejo','1976': 'dragon','1988': 'dragon','2000': 'dragon','2012': 'dragon','2024': 'dragon','1977': 'serpiente','1989': 'serpiente','2001': 'serpiente','2013': 'serpiente','2025': 'serpiente','1978': 'caballo','1990': 'caballo','2002': 'caballo','2014': 'caballo','2026': 'caballo','1979': 'cabra','1991': 'cabra','2003': 'cabra','2015': 'cabra','2027': 'cabra','1980': 'mono','1992': 'mono','2004': 'mono','2016': 'mono','2028': 'mono','1981': 'gallo','1993': 'gallo','2005': 'gallo','2017': 'gallo','2029': 'gallo'
+        };
+
+        var roleMap = {
+            'hombre_tauro': { role: 'mago', image: './mago.png' },
+            'hombre_virgo': { role: 'mago', image: './mago.png' },
+            'hombre_capricornio': { role: 'mago', image: './mago.png' },
+            'mujer_tauro': { role: 'maga', image: './maga.png' },
+            'mujer_virgo': { role: 'maga', image: './maga.png' },
+            'mujer_capricornio': { role: 'maga', image: './maga.png' },
+            'hombre_aries': { role: 'guerrero', image: './guerrero.jpg' },
+            'hombre_leo': { role: 'guerrero', image: './guerrero.jpg' },
+            'hombre_sagitario': { role: 'guerrero', image: './guerrero.jpg' },
+            'mujer_aries': { role: 'guerrera', image: './guerrera.jpg' },
+            'mujer_leo': { role: 'guerrera', image: './guerrera.jpg' },
+            'mujer_sagitario': { role: 'guerrera', image: './guerrera.jpg' },
+            'hombre_geminis': { role: 'nigromante', image: './nigromante.png' },
+            'hombre_libra': { role: 'nigromante', image: './nigromante.png' },
+            'hombre_acuario': { role: 'nigromante', image: './nigromante.png' },
+            'mujer_geminis': { role: 'nigromantemujer', image: './nigromantemujer.png' },
+            'mujer_libra': { role: 'nigromantemujer', image: './nigromantemujer.png' },
+            'mujer_acuario': { role: 'nigromantemujer', image: './nigromantemujer.png' },
+            'hombre_cancer': { role: 'asesino', image: './asesino.png' },
+            'hombre_escorpio': { role: 'asesino', image: './asesino.png' },
+            'hombre_piscis': { role: 'asesino', image: './asesino.png' },
+            'mujer_cancer': { role: 'asesina', image: './asesina.png' },
+            'mujer_escorpio': { role: 'asesina', image: './asesina.png' },
+            'mujer_piscis': { role: 'asesina', image: './asesina.png' }
+        };
+
+        // Elemento según signo
+        function elementForSign(zodiac) {
+            if (!zodiac) return '';
+            if (zodiac === 'aries' || zodiac === 'leo' || zodiac === 'sagitario') return 'Fuego';
+            if (zodiac === 'geminis' || zodiac === 'libra' || zodiac === 'acuario') return 'Aire';
+            if (zodiac === 'tauro' || zodiac === 'virgo' || zodiac === 'capricornio') return 'Tierra';
+            if (zodiac === 'cancer' || zodiac === 'escorpio' || zodiac === 'piscis') return 'Agua';
+            return '';
+        }
+
+        // Element images map
+        var elementImageMap = { 'Fuego': './fuego.png', 'Aire': './aire.png', 'Tierra': './tierra.png', 'Agua': './agua.png' };
+
+        // Inicialización DOM
+        var users = JSON.parse(localStorage.getItem('rotz_users') || '{}');
+        var current = localStorage.getItem('rotz_current');
+        var noUser = document.getElementById('no-user');
+        var form = document.getElementById('profile-form');
+        var pEmail = document.getElementById('p-email');
+        var pUsername = document.getElementById('p-username');
+        var pGender = document.getElementById('p-gender');
+        var pYear = document.getElementById('p-birth-year');
+        var pZodiac = document.getElementById('p-zodiac');
+        var pAnimal = document.getElementById('p-animal');
+        var pRole = document.getElementById('p-role');
+        var pRoleImage = document.getElementById('p-role-image');
+        var pElement = document.getElementById('p-element');
+        var profileRoots = document.getElementById('profile-roots');
+        var saveBtn = document.getElementById('save-profile');
+
+        // Rellenar años
+        (function fillYears() {
+            var start = 1946, end = 2029;
+            for (var y = start; y <= end; y++) {
+                var opt = document.createElement('option');
+                opt.value = String(y);
+                opt.textContent = String(y);
+                pYear.appendChild(opt);
+            }
+        })();
+
+        function showNoUser() {
+            noUser.style.display = 'block';
+            form.style.display = 'none';
+        }
+
+        function showForm() {
+            noUser.style.display = 'none';
+            form.style.display = 'block';
+        }
+
+        function computeDerived(gender, zodiac, year) {
+            var animal = animalMap[year] || 'N/A';
+            var key = (gender || '') + '_' + (zodiac || '');
+            var roleInfo = roleMap[key];
+            var roleText = roleInfo ? roleInfo.role.toUpperCase() : 'N/A';
+            var roleImg = roleInfo ? roleInfo.image : '';
+            var element = elementForSign(zodiac);
+            return { animal: animal, roleText: roleText, roleImg: roleImg, element: element };
+        }
+
+        if (!current) {
+            showNoUser();
+        } else {
+            var user = users[current];
+            if (!user) {
+                showNoUser();
+            } else {
+                showForm();
+                pEmail.value = user.email || current;
+                pUsername.value = user.username || '';
+                pGender.value = user.gender || '';
+                pYear.value = user.year || '';
+                pZodiac.value = user.zodiac || '';
+
+                var derived = computeDerived(pGender.value, pZodiac.value, pYear.value);
+                pAnimal.textContent = 'Animal asignado: ' + derived.animal;
+                pRole.textContent = 'Rol: ' + derived.roleText;
+                pRoleImage.src = derived.roleImg || '';
+                pElement.textContent = derived.element ? 'Elemento: ' + derived.element : '';
+                profileRoots.style.display = 'block';
+            }
+        }
+
+        // Recalcular al cambiar campos
+        pGender.addEventListener('change', function() {
+            var d = computeDerived(pGender.value, pZodiac.value, pYear.value);
+            pAnimal.textContent = 'Animal asignado: ' + d.animal;
+            pRole.textContent = 'Rol: ' + d.roleText;
+            pRoleImage.src = d.roleImg || '';
+            pElement.textContent = d.element ? 'Elemento: ' + d.element : '';
+            profileRoots.style.display = 'block';
+        });
+        pZodiac.addEventListener('change', function() {
+            var d = computeDerived(pGender.value, pZodiac.value, pYear.value);
+            pAnimal.textContent = 'Animal asignado: ' + d.animal;
+            pRole.textContent = 'Rol: ' + d.roleText;
+            pRoleImage.src = d.roleImg || '';
+            pElement.textContent = d.element ? 'Elemento: ' + d.element : '';
+            profileRoots.style.display = 'block';
+        });
+        pYear.addEventListener('change', function() {
+            var d = computeDerived(pGender.value, pZodiac.value, pYear.value);
+            pAnimal.textContent = 'Animal asignado: ' + d.animal;
+            pRole.textContent = 'Rol: ' + d.roleText;
+            pRoleImage.src = d.roleImg || '';
+            pElement.textContent = d.element ? 'Elemento: ' + d.element : '';
+            profileRoots.style.display = 'block';
+        });
+
+                saveBtn.addEventListener('click', function() {
+            if (!current) return showNoUser();
+            try {
+                var usersObj = JSON.parse(localStorage.getItem('rotz_users') || '{}');
+                var u = usersObj[current] || {};
+                u.email = pEmail.value || current;
+                u.username = pUsername.value || '';
+                u.gender = pGender.value || '';
+                u.year = pYear.value || '';
+                u.zodiac = pZodiac.value || '';
+                var derived = computeDerived(u.gender, u.zodiac, u.year);
+                u.animal = derived.animal;
+                u.role = derived.roleText;
+                u.element = derived.element ? 'Elemento: ' + derived.element : '';
+                usersObj[current] = u;
+                localStorage.setItem('rotz_users', JSON.stringify(usersObj));
+                // Intentar sincronizar con servidor (si API_BASE está configurada)
+                // Si no tenemos token, intentar login rápido con la contraseña guardada
+                var token = localStorage.getItem('rotz_token::' + current);
+                function doSync() {
+                    syncToServer(u, 'PUT')
+                        .then(function(res) { if (res && !res.skipped) console.log('Perfil sincronizado en servidor', res); })
+                        .catch(function(err) { console.warn('No se pudo sincronizar perfil', err); });
+                }
+                if (!token) {
+                    // intentar login con la contraseña guardada en el perfil
+                    var stored = JSON.parse(localStorage.getItem('rotz_users') || '{}')[current] || {};
+                    if (stored.password) {
+                        fetch(API_BASE + '/auth/login', {
+                            method: 'POST', headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ email: current, password: stored.password })
+                        }).then(function(r) { if (!r.ok) throw new Error('auth failed'); return r.json(); })
+                        .then(function(b) { if (b.token) localStorage.setItem('rotz_token::' + current, b.token); doSync(); })
+                        .catch(function() { doSync(); });
+                    } else {
+                        doSync();
+                    }
+                } else {
+                    doSync();
+                }
+
+                alert('Perfil guardado.');
+            } catch (e) {
+                console.error('Error guardando perfil', e);
+                alert('No se pudo guardar el perfil en este navegador.');
+            }
+        });
+    </script>
 </body>
 </html>
