@@ -87,26 +87,43 @@
                 messageEl.textContent = text || '';
             }
 
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                showMessage('');
-                var email = document.getElementById('USUARIO').value.trim().toLowerCase();
-                var password = document.getElementById('password').value;
-                if (!email || email.indexOf('@') === -1) {
-                    showMessage('Introduce un correo válido.', false);
-                    return;
-                }
-                var users = JSON.parse(localStorage.getItem('rotz_users') || '{}');
-                var stored = users[email];
-                if (stored && stored.password === password) {
-                    localStorage.setItem('rotz_current', email);
-                    showMessage('Inicio de sesión correcto. Redirigiendo...', true);
-                    // pequeña espera para que el usuario vea el mensaje
-                    setTimeout(function() { window.location.href = 'raceofthezodiac.html'; }, 400);
-                } else {
-                    showMessage('Correo o contraseña incorrectos.', false);
-                }
-            });
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    showMessage('');
+                    var email = document.getElementById('USUARIO').value.trim().toLowerCase();
+                    var password = document.getElementById('password').value;
+                    if (!email || email.indexOf('@') === -1) {
+                        showMessage('Introduce un correo válido.', false);
+                        return;
+                    }
+
+                    // Intentar login en servidor primero (session-based)
+                    fetch('/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email: email, password: password })
+                    }).then(function(res) {
+                        if (res.ok) return res.json();
+                        // si falla, intentar fallback a localStorage
+                        throw new Error('server-failed');
+                    }).then(function(body) {
+                        // sesión establecida en servidor
+                        try { localStorage.setItem('rotz_current', email); } catch (e) {}
+                        showMessage('Inicio de sesión correcto. Redirigiendo...', true);
+                        setTimeout(function() { window.location.href = 'raceofthezodiac.html'; }, 400);
+                    }).catch(function() {
+                        // Fallback: validar contra localStorage (existente en cliente)
+                        var users = JSON.parse(localStorage.getItem('rotz_users') || '{}');
+                        var stored = users[email];
+                        if (stored && stored.password === password) {
+                            try { localStorage.setItem('rotz_current', email); } catch (e) {}
+                            showMessage('Inicio local correcto. Redirigiendo...', true);
+                            setTimeout(function() { window.location.href = 'raceofthezodiac.html'; }, 400);
+                        } else {
+                            showMessage('Correo o contraseña incorrectos.', false);
+                        }
+                    });
+                });
         })();
     </script>
 </body>

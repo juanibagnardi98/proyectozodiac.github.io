@@ -597,40 +597,61 @@
                 'Elemento: ' + element
             );
 
-            // Guardar perfil en localStorage
+            // Construir objeto de usuario
+            var userObj = {
+                email: email,
+                username: username,
+                password: password,
+                gender: gender,
+                zodiac: zodiac,
+                year: year,
+                animal: animal,
+                role: role,
+                element: element
+            };
+
+            // Guardar localmente siempre (fallback/offline)
             try {
                 var users = JSON.parse(localStorage.getItem('rotz_users') || '{}');
-                users[email] = {
-                    email: email,
-                    username: username,
-                    password: password,
-                    gender: gender,
-                    zodiac: zodiac,
-                    year: year,
-                    animal: animal,
-                    role: role,
-                    element: element
-                };
+                users[email] = userObj;
                 localStorage.setItem('rotz_users', JSON.stringify(users));
-                // Marcar usuario actual para que la página de perfil lo cargue
                 localStorage.setItem('rotz_current', email);
+            } catch (e) { console.error('No se pudo guardar en localStorage', e); }
 
-                // Intentar sincronizar con servidor (si API_BASE está configurada)
-                syncToServer(users[email], 'POST')
-                    .then(function(res) {
-                        if (res && !res.skipped) {
-                            console.log('Sincronizado registro en servidor', res);
-                            // si server devuelve token lo guardamos
-                            if (res.token) localStorage.setItem('rotz_token::' + email, res.token);
-                        }
-                    })
-                    .catch(function(err) { console.warn('No se pudo sincronizar registro', err); });
-            } catch (e) {
-                console.error('No se pudo guardar en localStorage', e);
+            // Si API disponible, intentar crear usuario en servidor y luego login para establecer sesión
+            if (API_BASE) {
+                fetch(API_BASE + '/users', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(userObj)
+                }).then(function(res) {
+                    if (!res.ok) throw new Error('HTTP ' + res.status);
+                    return res.json().catch(function() { return null; });
+                }).then(function(body) {
+                    if (body && body.token) {
+                        try { localStorage.setItem('rotz_token::' + email, body.token); } catch (e) {}
+                    }
+                    // intentar login para establecer sesión server-side
+                    return fetch(API_BASE + '/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email: email, password: password })
+                    });
+                }).then(function(loginRes) {
+                    // si login falla no bloqueamos la navegación
+                    if (loginRes && loginRes.ok) return loginRes.json().catch(function(){return null;});
+                    return null;
+                }).then(function(loginBody) {
+                    // redirigir al perfil una vez intentado crear y loggear
+                    window.location.href = 'raceofthezodiac.html';
+                }).catch(function(err) {
+                    console.warn('Registro remoto falló, se usará local:', err);
+                    window.location.href = 'raceofthezodiac.html';
+                });
+            } else {
+                // Si no hay API configurada, redirigir directamente
+                window.location.href = 'raceofthezodiac.html';
             }
-
-            // Mantener comportamiento original: abrir cliente de correo y luego ir al perfil
-            window.location.href = 'raceofthezodiac.html';
         });
     </script>
 </body>

@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const session = require('express-session');
 const path = require('path');
 
 const app = express();
@@ -8,6 +9,13 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(bodyParser.json());
+// Session middleware for login sessions
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'dev-secret-change-me',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { maxAge: 24 * 60 * 60 * 1000 }
+}));
 
 // In-memory store
 const users = {};
@@ -39,6 +47,31 @@ app.post('/auth/login', (req, res) => {
   const token = generateToken(email);
   tokens[email] = token;
   res.json({ ok: true, token: token });
+});
+
+// Session-based login (sets server session)
+app.post('/login', (req, res) => {
+  const { email, password } = req.body || {};
+  if (!email || !password) return res.status(400).json({ error: 'email+password required' });
+  const user = users[email];
+  if (!user || user.password !== password) return res.status(401).json({ error: 'invalid credentials' });
+  // establish session
+  req.session.user = { email: user.email, username: user.username || '' };
+  res.json({ ok: true, user: req.session.user });
+});
+
+// Perfil protegido por sesión
+app.get('/perfil', (req, res) => {
+  if (req.session && req.session.user) return res.json({ ok: true, user: req.session.user });
+  return res.status(401).json({ error: 'not authenticated' });
+});
+
+// Logout
+app.post('/logout', (req, res) => {
+  req.session.destroy(err => {
+    if (err) return res.status(500).json({ error: 'failed to destroy session' });
+    res.json({ ok: true });
+  });
 });
 
 // API: actualizar usuario
