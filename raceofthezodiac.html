@@ -145,9 +145,9 @@
         </div>
         <div class="card">
             <span>OPCIONES</span>
-            <ul class="subroots">
-                <li>CERRAR SESION</li>
-            </ul>
+            <div class="button-group">
+                <button id="logout-btn">Cerrar Sesión</button>
+            </div>
         </div>
     </section>
 
@@ -433,6 +433,24 @@
                 alert('No se pudo guardar el perfil en este navegador.');
             }
         });
+
+        // Logout action
+        var logoutBtn = document.getElementById('logout-btn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function() {
+                var url = (API_BASE || '') + '/logout';
+                fetch(url, {
+                    method: 'POST'
+                }).then(function() {
+                    localStorage.removeItem('rotz_current');
+                    window.location.href = 'iniciosesion.html';
+                }).catch(function(err) {
+                    console.warn('Error en logout del servidor, limpiando localmente:', err);
+                    localStorage.removeItem('rotz_current');
+                    window.location.href = 'iniciosesion.html';
+                });
+            });
+        }
     </script>
 </body>
 </html>
