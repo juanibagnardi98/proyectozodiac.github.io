@@ -139,41 +139,13 @@
         </div>
         <div class="card">
             <span>PERFIL</span>
-            <ul class="subroots">
-                <li>ZODIACO</li>
-                <li>ZODIACO CHINO</li>
-                <li>ELEMENTO</li>
-                <li>PERSONAJE</li>
-            </ul>
-        </div>
-        <div class="card">
-            <span>TIENDA</span>
-            <ul class="subroots">
-                <li>SKINS</li>
-                <li>CRIATURAS</li>
-                <li>PODERES</li>
-                <li>CAMBIOS DE ELEMENTOS</li>
-            </ul>
-        </div>
-        <div class="card">
-            <span>DESCARGAS</span>
-            <ul class="subroots">
-                <li>WINDOWS</li>
-                <li>MACOS</li>
-                <li>ANDROID</li>
-            </ul>
-        </div>
-        <div class="card">
-            <span>MOCHILA</span>
-            <ul class="subroots">
-                <li>OBJETOS</li>
-                <li>EQUIPO</li>
-            </ul>
+            <div class="button-group">
+                <button id="open-profile">Ver Perfil</button>
+            </div>
         </div>
         <div class="card">
             <span>OPCIONES</span>
             <ul class="subroots">
-                <li>IDIOMAS</li>
                 <li>CERRAR SESION</li>
             </ul>
         </div>
@@ -240,7 +212,7 @@
         </div>
     </div>
 
-    <button id="open-profile" style="position:fixed;left:50%;transform:translateX(-50%);bottom:20px;background:#d4a855;color:#01303b;border:none;padding:16px 32px;border-radius:999px;cursor:pointer;font-weight:700;box-shadow:0 12px 30px rgba(0,0,0,0.25);z-index:900;">Perfil</button>
+
 
     <script>
         // URL base de la API (configura para habilitar sincronización)
@@ -259,7 +231,6 @@
             });
         }
 
-        // Mapas de animales y roles (compatibles con el registro)
         var animalMap = {
             '1946': 'perro','1947': 'cerdo','1948': 'rata','1949': 'buey','1950': 'tigre','1951': 'conejo','1952': 'dragon','1953': 'serpiente','1954': 'caballo','1955': 'cabra','1956': 'mono','1957': 'gallo','1958': 'perro','1959': 'cerdo','1960': 'rata','1961': 'buey','1962': 'tigre','1963': 'conejo','1964': 'dragon','1965': 'serpiente','1966': 'caballo','1967': 'cabra','1968': 'mono','1969': 'gallo','1970': 'perro','1982': 'perro','1994': 'perro','2006': 'perro','2018': 'perro','1971': 'cerdo','1983': 'cerdo','1995': 'cerdo','2007': 'cerdo','2019': 'cerdo','1972': 'rata','1984': 'rata','1996': 'rata','2008': 'rata','2020': 'rata','1973': 'buey','1985': 'buey','1997': 'buey','2009': 'buey','2021': 'buey','1974': 'tigre','1986': 'tigre','1998': 'tigre','2010': 'tigre','2022': 'tigre','1975': 'conejo','1987': 'conejo','1999': 'conejo','2011': 'conejo','2023': 'conejo','1976': 'dragon','1988': 'dragon','2000': 'dragon','2012': 'dragon','2024': 'dragon','1977': 'serpiente','1989': 'serpiente','2001': 'serpiente','2013': 'serpiente','2025': 'serpiente','1978': 'caballo','1990': 'caballo','2002': 'caballo','2014': 'caballo','2026': 'caballo','1979': 'cabra','1991': 'cabra','2003': 'cabra','2015': 'cabra','2027': 'cabra','1980': 'mono','1992': 'mono','2004': 'mono','2016': 'mono','2028': 'mono','1981': 'gallo','1993': 'gallo','2005': 'gallo','2017': 'gallo','2029': 'gallo'
         };
@@ -331,7 +302,7 @@
 
         function closeProfile() {
             profilePanel.style.display = 'none';
-            openProfileBtn.style.display = 'block';
+            openProfileBtn.style.display = '';
         }
 
         openProfileBtn.addEventListener('click', openProfile);
@@ -391,7 +362,6 @@
             }
         }
 
-        // Recalcular al cambiar campos
         pGender.addEventListener('change', function() {
             var d = computeDerived(pGender.value, pZodiac.value, pYear.value);
             pAnimal.textContent = 'Animal asignado: ' + d.animal;
@@ -433,8 +403,7 @@
                 u.element = derived.element ? 'Elemento: ' + derived.element : '';
                 usersObj[current] = u;
                 localStorage.setItem('rotz_users', JSON.stringify(usersObj));
-                // Intentar sincronizar con servidor (si API_BASE está configurada)
-                // Si no tenemos token, intentar login rápido con la contraseña guardada
+                
                 var token = localStorage.getItem('rotz_token::' + current);
                 function doSync() {
                     syncToServer(u, 'PUT')
