@@ -107,10 +107,10 @@ app.get('/perfil', (req, res) => {
   return res.status(401).json({ error: 'not authenticated' });
 });
 
-// Logout
 app.post('/logout', (req, res) => {
   req.session.destroy(err => {
     if (err) return res.status(500).json({ error: 'failed to destroy session' });
+    res.clearCookie('connect.sid');
     res.json({ ok: true });
   });
 });
