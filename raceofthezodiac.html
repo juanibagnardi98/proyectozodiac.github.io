@@ -440,7 +440,8 @@
             logoutBtn.addEventListener('click', function() {
                 var url = (API_BASE || '') + '/logout';
                 fetch(url, {
-                    method: 'POST'
+                    method: 'POST',
+                    credentials: 'include'
                 }).then(function() {
                     localStorage.removeItem('rotz_current');
                     window.location.href = 'iniciosesion.html';
